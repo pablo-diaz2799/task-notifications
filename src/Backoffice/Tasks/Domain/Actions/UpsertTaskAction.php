@@ -12,17 +12,18 @@ final class UpsertTaskAction
 {
     public function execute(TaskDto $dto): Task
     {
-        $task = Task::updateOrCreate(
-            [
-                'id' => $dto->id,
-            ],
-            [
-                'title' => $dto->title,
-                'description' => $dto->description,
-                'status' => $dto->status,
-                'employee_id' => $dto->employee_id,
-            ],
-        );
+        $task = $dto->id !== null
+            ? Task::findOrNew($dto->id)
+            : new Task();
+
+        $task->fill([
+            'title' => $dto->title,
+            'description' => $dto->description,
+            'status' => $dto->status,
+            'employee_id' => $dto->employee_id,
+        ]);
+
+        $task->save();
 
         if ($task->wasChanged('employee_id') && $task->employee !== null) {
             $task->employee->notify(new TaskAssigned($task));

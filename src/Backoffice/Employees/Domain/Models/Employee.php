@@ -27,6 +27,8 @@ use Lightit\Backoffice\Tasks\Domain\Models\Task;
  *
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Task> $tasks
  * @property-read int|null $tasks_count
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
+ * @property-read int|null $notifications_count
  *
  * @mixin \Eloquent
  */
