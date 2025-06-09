@@ -10,12 +10,13 @@ use Illuminate\Notifications\Notifiable;
 use Lightit\Backoffice\Tasks\Domain\Models\Task;
 
 /**
+ * 
+ *
  * @property int                          $id
  * @property string                       $name
  * @property string                       $email
  * @property \Carbon\CarbonImmutable|null $created_at
  * @property \Carbon\CarbonImmutable|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee query()
@@ -24,12 +25,10 @@ use Lightit\Backoffice\Tasks\Domain\Models\Task;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee whereUpdatedAt($value)
- *
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Task> $tasks
  * @property-read int|null $tasks_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
- *
  * @mixin \Eloquent
  */
 class Employee extends Model

@@ -25,7 +25,7 @@ final class UpsertTaskAction
 
         $task->save();
 
-        if ($task->wasChanged('employee_id') && $task->employee !== null) {
+        if (($task->wasRecentlyCreated || $task->wasChanged('employee_id')) && $task->employee !== null) {
             $task->employee->notify(new TaskAssigned($task));
         }
 
