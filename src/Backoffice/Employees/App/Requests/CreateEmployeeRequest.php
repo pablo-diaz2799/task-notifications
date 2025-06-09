@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Lightit\Backoffice\Employees\App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Lightit\Backoffice\Employees\Domain\Dto\EmployeeDto;
 
 final class CreateEmployeeRequest extends FormRequest
@@ -17,7 +18,7 @@ final class CreateEmployeeRequest extends FormRequest
     {
         return [
             self::NAME => ['required', 'string'],
-            self::EMAIL => ['required', 'email', 'unique:employees'],
+            self::EMAIL => ['required', 'email', Rule::unique('employees')],
         ];
     }
 

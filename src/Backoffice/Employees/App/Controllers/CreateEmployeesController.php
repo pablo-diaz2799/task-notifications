@@ -6,7 +6,7 @@ namespace Lightit\Backoffice\Employees\App\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Lightit\Backoffice\Employees\App\Requests\CreateEmployeeRequest;
-use Lightit\Backoffice\Employees\App\Transformers\EmployeeTransformer;
+use Lightit\Backoffice\Employees\App\Resources\EmployeeResource;
 use Lightit\Backoffice\Employees\Domain\Actions\CreateEmployeeAction;
 
 final class CreateEmployeesController
@@ -15,8 +15,6 @@ final class CreateEmployeesController
     {
         $employee = $action->execute($request->toDto());
 
-        return responder()
-            ->success($employee, EmployeeTransformer::class)
-            ->respond();
+        return EmployeeResource::make($employee)->response();
     }
 }

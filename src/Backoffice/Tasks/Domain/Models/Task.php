@@ -36,7 +36,7 @@ use Lightit\Backoffice\Employees\Domain\Models\Employee;
  */
 class Task extends Model
 {
-    protected $fillable = ['id', 'title', 'description', 'status', 'employee_id'];
+    protected $guarded = ['id'];
 
     /**
      * @return BelongsTo<Employee, $this>

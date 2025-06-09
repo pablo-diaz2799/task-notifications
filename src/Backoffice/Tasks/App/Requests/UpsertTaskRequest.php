@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Lightit\Backoffice\Tasks\App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Lightit\Backoffice\Tasks\Domain\Dto\TaskDto;
 
 final class UpsertTaskRequest extends FormRequest
@@ -26,7 +27,7 @@ final class UpsertTaskRequest extends FormRequest
             self::TITLE => ['required', 'string'],
             self::DESCRIPTION => ['required', 'string'],
             self::STATUS => ['required', 'string'],
-            self::EMPLOYEE_ID => ['required', 'integer', 'exists:employees,id'],
+            self::EMPLOYEE_ID => ['required', 'integer', Rule::exists('employees', 'id')],
         ];
     }
 

@@ -6,9 +6,8 @@ namespace Lightit\Backoffice\Tasks\App\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Lightit\Backoffice\Tasks\App\Requests\UpsertTaskRequest;
-use Lightit\Backoffice\Tasks\App\Transformers\TaskTransformer;
+use Lightit\Backoffice\Tasks\App\Resources\TaskResource;
 use Lightit\Backoffice\Tasks\Domain\Actions\UpsertTaskAction;
-use Lightit\Shared\App\Notifications\TaskAssigned;
 
 final class UpsertTaskController
 {
@@ -16,10 +15,6 @@ final class UpsertTaskController
     {
         $task = $action->execute($request->toDto());
 
-        if ($task->employee) {
-            $task->employee->notify(new TaskAssigned($task));
-        }
-
-        return responder()->success($task, TaskTransformer::class)->respond();
+        return TaskResource::make($task)->response();
     }
 }

@@ -6,12 +6,13 @@ namespace Lightit\Backoffice\Tasks\Domain\Actions;
 
 use Lightit\Backoffice\Tasks\Domain\Dto\TaskDto;
 use Lightit\Backoffice\Tasks\Domain\Models\Task;
+use Lightit\Shared\App\Notifications\TaskAssigned;
 
 final class UpsertTaskAction
 {
     public function execute(TaskDto $dto): Task
     {
-        return Task::updateOrCreate(
+        $task = Task::updateOrCreate(
             [
                 'id' => $dto->id,
             ],
@@ -20,8 +21,13 @@ final class UpsertTaskAction
                 'description' => $dto->description,
                 'status' => $dto->status,
                 'employee_id' => $dto->employee_id,
-
             ],
         );
+
+        if ($task->wasChanged('employee_id') && $task->employee !== null) {
+            $task->employee->notify(new TaskAssigned($task));
+        }
+
+        return $task;
     }
 }
