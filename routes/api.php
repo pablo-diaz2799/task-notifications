@@ -11,6 +11,16 @@ use Lightit\Backoffice\Users\App\Controllers\{
     StoreUserController,
     UpdateUserController
 };
+use Lightit\Backoffice\Employees\App\Controllers\{
+    ListEmployeesController,
+    CreateEmployeesController
+};
+use Lightit\Backoffice\Tasks\App\Controllers\{
+    ListTaskController,
+    CreateTaskController,
+    UpdateTaskController,
+    FindTaskController
+};
 
 
 /*
@@ -48,4 +58,20 @@ Route::prefix('users')
             ->whereNumber('user');
         Route::delete('/{user}', DeleteUserController::class)
             ->whereNumber('user');
+    });
+
+Route::prefix('employees')
+    ->name('employees.')
+    ->group(static function (): void {
+        Route::get('/', ListEmployeesController::class)->name('list');
+        Route::post('/', CreateEmployeesController::class)->name('store');
+    });
+
+Route::prefix('tasks')
+    ->name('tasks.')
+    ->group(static function (): void {
+        Route::get('/', ListTaskController::class)->name('list');
+        Route::post('/', CreateTaskController::class)->name('store');
+        Route::get('/{task}', FindTaskController::class)->name('find');
+        Route::put('/{task}', UpdateTaskController::class)->name('update');
     });
