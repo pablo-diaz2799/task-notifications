@@ -8,14 +8,10 @@ use Lightit\Backoffice\Tasks\Domain\Dto\TaskDto;
 use Lightit\Backoffice\Tasks\Domain\Models\Task;
 use Lightit\Shared\App\Notifications\TaskAssigned;
 
-final class UpsertTaskAction
+final class UpdateTaskAction
 {
-    public function execute(TaskDto $dto): Task
+    public function execute(Task $task, TaskDto $dto): Task
     {
-        $task = $dto->id !== null
-            ? Task::findOrNew($dto->id)
-            : new Task();
-
         $task->fill([
             'title' => $dto->title,
             'description' => $dto->description,
@@ -25,10 +21,17 @@ final class UpsertTaskAction
 
         $task->save();
 
-        if (($task->wasRecentlyCreated || $task->wasChanged('employee_id')) && $task->employee !== null) {
-            $task->employee->notify(new TaskAssigned($task));
+        if ($task->wasChanged('employee_id')) {
+            $this->notfiyEmployee($task);
         }
 
         return $task;
+    }
+
+    private function notfiyEmployee(Task $task): void
+    {
+        if ($task->employee !== null) {
+            $task->employee->notify(new TaskAssigned($task));
+        }
     }
 }

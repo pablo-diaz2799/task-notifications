@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Lightit\Backoffice\Tasks\Domain\Dto\TaskDto;
 
-final class UpsertTaskRequest extends FormRequest
+final class UpdateTaskRequest extends FormRequest
 {
     public const string ID = 'id';
 
@@ -23,11 +23,11 @@ final class UpsertTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            self::ID => ['sometimes', 'exists:tasks,id'],
+            self::ID => ['required', Rule::exists('tasks', 'id')],
             self::TITLE => ['required', 'string'],
             self::DESCRIPTION => ['required', 'string'],
             self::STATUS => ['required', 'string'],
-            self::EMPLOYEE_ID => ['required', 'integer', Rule::exists('employees', 'id')],
+            self::EMPLOYEE_ID => ['required', Rule::exists('employees', 'id')],
         ];
     }
 
@@ -38,7 +38,6 @@ final class UpsertTaskRequest extends FormRequest
             description: $this->string(self::DESCRIPTION)->toString(),
             status: $this->string(self::STATUS)->toString(),
             employee_id: $this->integer(self::EMPLOYEE_ID),
-            id: $this->integer(self::ID),
         );
     }
 }

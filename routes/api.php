@@ -17,7 +17,9 @@ use Lightit\Backoffice\Employees\App\Controllers\{
 };
 use Lightit\Backoffice\Tasks\App\Controllers\{
     ListTaskController,
-    UpsertTaskController
+    CreateTaskController,
+    UpdateTaskController,
+    FindTaskController
 };
 
 
@@ -69,5 +71,7 @@ Route::prefix('tasks')
     ->name('tasks.')
     ->group(static function (): void {
         Route::get('/', ListTaskController::class)->name('list');
-        Route::post('/', UpsertTaskController::class)->name('upsert');
+        Route::post('/', CreateTaskController::class)->name('store');
+        Route::get('/{task}', FindTaskController::class)->name('find');
+        Route::put('/{task}', UpdateTaskController::class)->name('update');
     });

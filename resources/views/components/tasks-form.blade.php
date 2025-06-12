@@ -1,6 +1,6 @@
 <div class="form-container">
     <h2 class="mb-4">Task Management</h2>
-    <form id="taskForm" action="{{ route('tasks.upsert') }}" method="POST">
+    <form id="taskForm" action="{{ route('tasks.store') }}" method="POST">
         @csrf
 
         <div class="form-group">
@@ -68,16 +68,15 @@
                     'X-Requested-With': 'XMLHttpRequest'
                 }
             }).then(response => response.json()).then(response => {
-                console.log(response);
-                    response.data.forEach(employee => {
-                        const option = document.createElement('option');
-                        option.value = employee.id;
-                        option.textContent = employee.name;
-                        select.appendChild(option);
-                    });
-                    employeesLoaded = true;
-                    resolve();
-                })
+                response.data.forEach(employee => {
+                    const option = document.createElement('option');
+                    option.value = employee.id;
+                    option.textContent = employee.name;
+                    select.appendChild(option);
+                });
+                employeesLoaded = true;
+                resolve();
+            })
                 .catch(error => {
                     console.error('Error loading employees:', error);
                     reject(error);
@@ -119,7 +118,7 @@
             return;
         }
 
-        fetch(`/tasks/${taskId}`, {
+        fetch(`/api/tasks/${taskId}`, {
             headers: {
                 'Accept': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest'
@@ -153,14 +152,18 @@
         e.preventDefault();
         const formData = new FormData(this);
         const action = formData.get('action');
+        const taskId = formData.get('task_id');
+        formData.delete('task_id');
+        formData.delete('action');
 
         if (action === 'update') {
-            const taskId = formData.get('task_id');
             formData.append('id', taskId);
+            formData.append('_method', 'PUT');
         }
-        formData.delete('task_id');
 
-        fetch('{{ route('tasks.upsert') }}', {
+
+        const url = action === 'update' ? `/api/tasks/${taskId}` : '{{ route('tasks.store') }}';
+        fetch(url, {
             method: 'POST',
             body: formData,
             headers: {

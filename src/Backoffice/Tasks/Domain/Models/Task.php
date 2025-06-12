@@ -9,12 +9,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Lightit\Backoffice\Employees\Domain\Models\Employee;
 
 /**
- * 
- *
  * @property int                          $id
  * @property string                       $title
  * @property \Carbon\CarbonImmutable|null $created_at
  * @property \Carbon\CarbonImmutable|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Task newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Task newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Task query()
@@ -22,13 +21,17 @@ use Lightit\Backoffice\Employees\Domain\Models\Employee;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereUpdatedAt($value)
+ *
  * @property string   $description
  * @property string   $status
  * @property int|null $employee_id
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereEmployeeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereStatus($value)
+ *
  * @property-read Employee|null $employee
+ *
  * @mixin \Eloquent
  */
 class Task extends Model
